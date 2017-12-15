@@ -1,6 +1,5 @@
-# Hash Compare
+# Hash Compare Output
 
-OUTPUT
 PS C:\> .\test.ps1
 
 

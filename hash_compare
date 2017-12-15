@@ -1,0 +1,23 @@
+# Generate SHA1 Hashes Recursively
+
+$Path= "C:\inetpub\wwwroot\"
+$Files = get-childitem $Path -rec  | where {! $_.PSIsContainer}
+foreach($file in $Files)
+{    
+    $hash = [Security.Cryptography.HashAlgorithm]::Create( "SHA1" )
+    $stream = ([IO.StreamReader]$file.FullName).BaseStream
+    $sha1= -join ($hash.ComputeHash($stream) | ForEach { "{0:x2}" -f $_ })
+    Write-Host $file.FullName:$sha1
+   
+    $report = New-Object psobject
+    $report | Add-Member -MemberType NoteProperty -name Path -Value $file.FullName
+    $report | Add-Member -MemberType NoteProperty -name SHA1-Hash -Value $sha1.ToUpper()
+    $report | export-csv -Append current.csv -NoTypeInformation
+}
+
+#Compare CSV Files
+
+$file1 = import-csv -Path "C:\original.csv" 
+$file2 = import-csv -Path "C:\current.csv" 
+
+Compare-Object $file1 $file2 -property Path, SHA1-Hash | Format-List

@@ -1,0 +1,24 @@
+---
+# ssh-keygen -t rsa
+# Target IP address to hosts file
+# k = user password, --ask-sudo-pass = sudo password
+# ansible-playbook ansible_setup.yml -i hosts -k --ask-sudo-pass
+  
+
+- hosts: all
+  gather_facts: False
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  tasks:
+    - name: Update Packages
+      raw: (apt-get update && apt-get -y upgrade)
+
+    - name: Install Python 2
+      raw: test -e /usr/bin/python || (apt-get update && apt-get install -y python)
+
+    - name: Add authorized SSH keys
+      authorized_key: user=root
+                      key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

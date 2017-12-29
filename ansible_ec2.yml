@@ -1,0 +1,23 @@
+---
+- name: Create test instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    keypair: ubuntu #ssh keypair name
+    instance_type: t2.micro # t2 for free
+    image: ami-82f4dae7 # Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
+    region: us-east-2 # my region
+  tasks:
+    - name: Launch instance
+      ec2:
+         key_name: "{{ keypair }}"
+         group: default
+         instance_type: "{{ instance_type }}"
+         image: "{{ image }}"
+         wait: true
+         region: "{{ region }}"
+         aws_access_key: ???
+         aws_secret_key: ???
+      register: ec2
+    - name: Print all ec2 variables
+      debug: var=ec2

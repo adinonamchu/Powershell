@@ -2,6 +2,7 @@
 # ssh-keygen -t rsa
 # Target IP address to hosts file
 # k = user password, --ask-sudo-pass = sudo password
+# /etc/ssh/sshd_config PermitRootLogin yes
 # ansible-playbook ansible_setup.yml -i hosts -k --ask-sudo-pass
   
 

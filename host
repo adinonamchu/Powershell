@@ -1,1 +1,4 @@
-10.0.3.65 ansible_sudo_pass='ubuntu' 
+[whatever]
+some-host ansible_sudo_pass='foobar'
+
+

